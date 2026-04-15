@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Nasza aplikacja ML
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    networks:
+      - ml_network
+    depends_on:
+      - redis_db
+
+  # Drugi serwis - baza danych Redis
+  redis_db:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - ml_network
+
+# Definicja wspólnej sieci dla kontenerów
+networks:
+  ml_network:
+    driver: bridge
